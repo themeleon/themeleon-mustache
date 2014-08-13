@@ -26,9 +26,9 @@ var glob = q.denodeify(require('glob'));
  *
  * The template files are relative to `src` directory.
  *
- * @param {string} src
- * @param {object} partials
- * @return {promise}
+ * @param {String} src
+ * @param {Object} partials
+ * @return {Promise}
  */
 function readPartialsObject(src, partials) {
   var promises = [];
@@ -86,9 +86,9 @@ function readPartialsDirectory(src, partials) {
  * with `readPartialsDirectory`, otherwise as an object with
  * `readPartialsObject`.
  *
- * @param {string} src
- * @param {string|object} partials
- * @return {promise}
+ * @param {String} src
+ * @param {String|Object} partials
+ * @return {Promise}
  */
 function readPartials(src, partials) {
   if (!partials) {
