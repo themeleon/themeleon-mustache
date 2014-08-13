@@ -91,6 +91,10 @@ function readPartialsDirectory(src, partials) {
  * @return {promise}
  */
 function readPartials(src, partials) {
+  if (!partials) {
+    return null;
+  }
+
   if (typeof partials === 'string') {
     return readPartialsDirectory(src, partials);
   }
