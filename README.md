@@ -1,8 +1,10 @@
 Themeleon Mustache
 ==================
 
-> [Mustache](https://mustache.github.io/) mixin for
-> [Themeleon](https://github.com/themeleon/themeleon).
+> [Mustache] mixin for [Themeleon].
+
+[Mustache]: https://mustache.github.io/
+[Themeleon]: https://github.com/themeleon/themeleon
 
 Installation
 ------------

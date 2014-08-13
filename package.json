@@ -1,21 +1,38 @@
 {
   "name": "themeleon-mustache",
   "version": "1.0.0",
+  "description": "Mustache mixin for Themeleon.",
+  "license": "Unlicense",
+
+  "author": {
+    "name": "Valérian Galliat",
+    "url": "http://val.codejam.info/"
+  },
+
+  "contributors": [],
+
+  "homepage": "https://github.com/themeleon/themeleon-mustache",
+  "bugs": "https://github.com/themeleon/themeleon-mustache/issues",
+
   "repository": {
     "type": "git",
-    "url": "https://github.com/valeriangalliat/themeleon-mustache.git"
+    "url": "https://github.com/themeleon/themeleon-mustache.git"
   },
-  "scripts": {
-    "test": "eslint *.js && node test/index.js"
-  },
+
   "dependencies": {
     "ap": "0.*",
-    "glob": "^4.0.5",
+    "glob": "4.*",
     "mustache": "0.*",
     "q": "1.*",
     "themeleon": "1.*"
   },
+
   "devDependencies": {
     "eslint": "0.*"
+  },
+
+  "scripts": {
+    "lint": "eslint *.js",
+    "test": "$npm_package_scripts_lint && node test/index.js"
   }
 }
