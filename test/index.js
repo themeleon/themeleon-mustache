@@ -2,33 +2,55 @@ var assert = require('assert');
 var fs = require('fs');
 var themeleon = require('themeleon')();
 var mustache = require('../index');
+var path = require('path');
+var q = require('q');
 
 themeleon.use(mustache);
 
-var index = __dirname + '/index.html';
-var expected = __dirname + '/expected.html';
+function testTheme(dest, expected, theme) {
+  dest = path.resolve(__dirname, dest);
+  expected = path.resolve(__dirname, expected);
 
-function testTheme(theme) {
-  return theme(__dirname, {title: 'Hello world!'})
+  return themeleon(__dirname, theme)(__dirname, {title: 'Hello world!'})
     .then(function () {
-      var indexContent = fs.readFileSync(index, 'utf8');
+      var destContent = fs.readFileSync(dest, 'utf8');
       var expectedContent = fs.readFileSync(expected, 'utf8');
 
-      assert.equal(indexContent, expectedContent);
+      assert.equal(destContent, expectedContent);
 
-      fs.unlink(index);
+      fs.unlink(dest);
     });
 }
 
-testTheme(themeleon(__dirname, function (t) {
-  t.mustache('views/index.mustache', 'index.html', {
-    'foo': 'views/foo.mustache',
-    'foo/bar': 'views/foo/bar.mustache',
-  });
-}))
+q()
   .then(function () {
-    testTheme(themeleon(__dirname, function (t) {
-      t.mustache('views/index.mustache', 'index.html', 'views');
-    }));
+    var src = 'views/test-single.mustache';
+    var dest = 'test-single.html';
+    var expected = 'test-single.expected.html';
+
+    return testTheme(dest, expected, function (t) {
+      t.mustache(src, dest);
+    })
+  })
+  .then(function () {
+    var src = 'views/test-partials.mustache';
+    var dest = 'test-partials-object.html';
+    var expected = 'test-partials.expected.html';
+
+    return testTheme(dest, expected, function (t) {
+      t.mustache(src, dest, {
+        'foo': 'views/foo.mustache',
+        'foo/bar': 'views/foo/bar.mustache',
+      });
+    });
+  })
+  .then(function () {
+    var src = 'views/test-partials.mustache';
+    var dest = 'test-partials-directory.html';
+    var expected = 'test-partials.expected.html';
+
+    return testTheme(dest, expected, function (t) {
+      t.mustache(src, dest, 'views');
+    });
   })
   .done();
