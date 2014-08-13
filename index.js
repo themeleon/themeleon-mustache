@@ -7,6 +7,7 @@ var path = require('path');
 var q = require('q');
 
 var readFile = q.denodeify(fs.readFile);
+var glob = q.denodeify(require('glob'));
 
 /**
  * Given partials are in the following format:
@@ -29,7 +30,7 @@ var readFile = q.denodeify(fs.readFile);
  * @param {object} partials
  * @return {promise}
  */
-function readPartials(src, partials) {
+function readPartialsObject(src, partials) {
   var promises = [];
 
   for (var name in partials) {
@@ -51,6 +52,52 @@ function readPartials(src, partials) {
     });
 }
 
+/**
+ * Find all `.mustache` files from partials directory and build
+ * an object, then pass it to `readPartialsObject`.
+ */
+function readPartialsDirectory(src, partials) {
+  src = path.resolve(src);
+  partials = path.resolve(src, partials);
+
+  return glob(partials + '/**/*.mustache')
+    .then(function (files) {
+      var object = {};
+
+      files.forEach(function (file) {
+        // Strip partials directory
+        var partial = file.substr(partials.length + 1);
+
+        // Strip extension
+        partial = partial.substr(0, partial.lastIndexOf('.'));
+
+        object[partial] = file;
+      });
+
+      return object;
+    })
+    .then(function (partials) {
+      return readPartialsObject(src, partials);
+    });
+}
+
+/**
+ * If partials is a string, it will be treated as a directory
+ * with `readPartialsDirectory`, otherwise as an object with
+ * `readPartialsObject`.
+ *
+ * @param {string} src
+ * @param {string|object} partials
+ * @return {promise}
+ */
+function readPartials(src, partials) {
+  if (typeof partials === 'string') {
+    return readPartialsDirectory(src, partials);
+  }
+
+  return readPartialsObject(src, partials);
+}
+
 module.exports = function (mustache) {
   mustache = mustache || require('mustache');
 
@@ -58,11 +105,15 @@ module.exports = function (mustache) {
 
   return {
     mustache: d.srcDest(function (src, dest, partials) {
-      var promise = q.all([readFile(src, 'utf8'), readPartials(this.src, partials)])
+      var promise = q.all([
+        readFile(src, 'utf8'),
+        readPartials(this.src, partials)
+      ])
         .spread(function (template, partials) {
           return mustache.render(template, this.ctx, partials);
         }.bind(this))
         .then(ap([dest], writeFile));
+
       this.push(promise);
     }),
   };
