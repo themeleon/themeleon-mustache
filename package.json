@@ -13,7 +13,7 @@
     "glob": "^4.0.5",
     "mustache": "0.*",
     "q": "1.*",
-    "themeleon": "0.*"
+    "themeleon": "1.*"
   },
   "devDependencies": {
     "eslint": "0.*"
