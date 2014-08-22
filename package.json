@@ -1,15 +1,19 @@
 {
   "name": "themeleon-mustache",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Mustache mixin for Themeleon.",
-  "license": "Unlicense",
 
-  "author": {
-    "name": "Valérian Galliat",
-    "url": "http://val.codejam.info/"
+  "license": {
+    "type": "Unlicense",
+    "url": "http://unlicense.org/"
   },
 
-  "contributors": [],
+  "contributors": [
+    {
+      "name": "Valérian Galliat",
+      "url": "http://val.codejam.info/"
+    }
+  ],
 
   "homepage": "https://github.com/themeleon/themeleon-mustache",
   "bugs": "https://github.com/themeleon/themeleon-mustache/issues",
