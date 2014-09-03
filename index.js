@@ -53,7 +53,7 @@ function readPartialsObject(src, partials) {
 }
 
 /**
- * Find all `.mustache` files from partials directory and build
+ * Find all `.mustache` or `.mst` files from partials directory and build
  * an object, then pass it to `readPartialsObject`.
  */
 function readPartialsDirectory(src, partials) {
