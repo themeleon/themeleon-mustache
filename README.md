@@ -32,8 +32,6 @@ views/
   foo.mustache
   index.mustache
 ```
-*Note: `.mustache` and `.mst` extensions are supported.*
-
 
 ```js
 var themeleon = require('themeleon')();
@@ -55,6 +53,7 @@ module.exports = themeleon(__dirname, function (t) {
   });
 
   // Or let the mixin resolve all `.mustache` files in `views`
+  // Note: `.mustache` and `.mst` extensions are supported.
   t.mustache('views/index.mustache', 'index.html', 'views');
 });
 ```
