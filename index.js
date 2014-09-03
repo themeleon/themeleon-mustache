@@ -60,7 +60,7 @@ function readPartialsDirectory(src, partials) {
   src = path.resolve(src);
   partials = path.resolve(src, partials);
 
-  return glob(partials + '/**/*.mustache')
+  return glob(partials + '/**/*.+(mustache|mst)')
     .then(function (files) {
       var object = {};
 
