@@ -32,6 +32,8 @@ views/
   foo.mustache
   index.mustache
 ```
+*Note: `.mustache` and `.mst` extensions are supported.*
+
 
 ```js
 var themeleon = require('themeleon')();
